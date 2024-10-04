@@ -1,0 +1,871 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/smile.ico">
+  <link rel="icon" href="/img/smile.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wei Jicheng">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为什么要给树莓派设置静态IP 对于我自身来说其实给树莓派设置这个静态ip并不是必须的，但是考虑到后面可能需要用，主要就是因为树莓派在连接不同的网络的时候，它的IP并不是固定的，是动态的，那么没有显示器的话，我们要去查树莓派的ip并且去ssh连接它或者用vnc连接都是比较麻烦的。 遇到的问题 其实最大的问题就是，树莓派的系统版本不同导致有些网上找到的资料我们不能拿来直接用，就很烦，常说一句话”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树莓派静态ip的设置">
+<meta property="og:url" content="https://qingyun0118.github.io/2024/08/31/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%9D%99%E6%80%81ip%E7%9A%84%E8%AE%BE%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Qingyun&#39;s 博客">
+<meta property="og:description" content="为什么要给树莓派设置静态IP 对于我自身来说其实给树莓派设置这个静态ip并不是必须的，但是考虑到后面可能需要用，主要就是因为树莓派在连接不同的网络的时候，它的IP并不是固定的，是动态的，那么没有显示器的话，我们要去查树莓派的ip并且去ssh连接它或者用vnc连接都是比较麻烦的。 遇到的问题 其实最大的问题就是，树莓派的系统版本不同导致有些网上找到的资料我们不能拿来直接用，就很烦，常说一句话”">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Qingyun0118/myblog@master/img/image-20240831030936887.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Qingyun0118/myblog@master/img/image-20240831031514686.png">
+<meta property="article:published_time" content="2024-08-30T18:19:58.000Z">
+<meta property="article:modified_time" content="2024-08-30T20:43:53.800Z">
+<meta property="article:author" content="Wei Jicheng">
+<meta property="article:tag" content="树莓派 静态IP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Qingyun0118/myblog@master/img/image-20240831030936887.png">
+  
+  
+  
+  <title>树莓派静态ip的设置 - Qingyun&#39;s 博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qingyun0118.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mwdRBWwvDhrIsXHwY0GX76ai-gzGzoHsz","app_key":"Z73MgWvv7s8zwPFWVLFxgOWI","server_url":"https://mwdrbwwv.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Qingyun&#39;s 博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/moutain.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="树莓派静态ip的设置"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Wei Jicheng
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-31 02:19" pubdate>
+          2024年8月31日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">树莓派静态ip的设置</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2024年8月31日 凌晨
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="为什么要给树莓派设置静态ip">为什么要给树莓派设置静态IP</h1>
+<p>对于我自身来说其实给树莓派设置这个静态ip并不是必须的，但是考虑到后面可能需要用，主要就是因为树莓派在连接不同的网络的时候，它的IP并不是固定的，是动态的，那么没有显示器的话，我们要去查树莓派的ip并且去ssh连接它或者用vnc连接都是比较麻烦的。</p>
+<h1 id="遇到的问题">遇到的问题</h1>
+<p>其实最大的问题就是，树莓派的系统版本不同导致有些网上找到的资料我们不能拿来直接用，就很烦，常说一句话<strong>”一包烟，一杯茶，一个环境配一天“</strong>，我觉得最大的原因就是因为，很多资料因为系统版本的不同导致我们不能直接照搬，对很多东西我们其实对于底层的东西没有深入的了解（反正我是这样，所以配环境很多时候就是csdn找，代码copy过来用，不行就换篇文章，如此往复而已，真的让人头疼。。。）</p>
+<p><strong>这也让我明白了记录的重要性。。。</strong></p>
+<h1 id="那么开始正题">那么，开始正题</h1>
+<p>首先就是我去查了一些资料（csdn）</p>
+<p><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/m0_47673868/article/details/132410559#:~:text=本文介绍了如何在树莓派上使用dhcpcd和NetworkManager进行网络配置，包括静态IP设置、不同接口配置方法以及通过系统设置页面进行简单配置。文章提供了详细的命令和截图，适合运维、嵌入式硬件和linux爱好者参考。">树莓派配置静态ip的几种方式（dhcpcd和Network-Manager）_树莓派怎么设置静态ip-CSDN博客</a></p>
+<hr />
+<h2 id="修改配置文件">修改配置文件</h2>
+<p>这篇博客第一种方法是去修改配置文件<code>sudo nano /etc/dhcpcd.conf</code>，但是呢，因为树莓派的系统版本不一样（这篇博客还算时间比较近的了，23年8.29，我是在24年8.31弄的），系统版本不一样导致的就是我输入<code>sudo nano /etc/dhcpcd.conf</code>会显示这是一个新的文件（图片底部<code>new file</code>都给我整不会了。。。）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Qingyun0118/myblog@master/img/image-20240831030936887.png" srcset="/img/loading.gif" lazyload alt="image-20240831030936887" style="zoom:67%;" /></p>
+<p>第二种方法我输入<code>sudo nano /etc/network/interfaces</code>，出来下面这些，不是空的，感觉应该可以尝试这种方法（但我没有用，因为我有显示器，所以我直接用第三种，当然也可以用vnc来操作hhhhh，但是<strong>修改以后需要断开网络重新连接</strong>，这样vnc就断了）</p>
+<p>（<strong>尝试以后的我回来了。。。不行，这个操作以后无线网络都连不了了我。。。pass</strong>）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Qingyun0118/myblog@master/img/image-20240831031514686.png" srcset="/img/loading.gif" lazyload alt="image-20240831031514686" style="zoom:67%;" /></p>
+<p>我也把具体要写（复制）在里面的东西放下边：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">auto lo<br>iface lo inet loopback<br> <br>auto eth0<br>iface eth0 inet dhcp<br>auto wlan0<br>allow-hotplug wlan0<br>iface wlan0 inet static//静态地址<br>address 192.168.1.65<br>netmask 255.255.255.0<br>gateway 192.168.1.1<br>network 192.168.1.1<br> <br>wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf //wifi帐号密码文件<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>对上边的代码我要有一些补充说明，有一些是在使用图形界面进行配置的时候也是要注意的</p>
+<ol type="1">
+<li><code>eht0</code>指的是有线网络（就是给树莓派插上网线的，咱不是整的这个变成静态的所以让它auto）</li>
+<li><code>wlan0</code>就是咱要搞的无线网络，咱要把它弄成静态的</li>
+<li><code>adress</code>就是你要设置的静态IP地址是多少，但是捏，这个咱也不能照抄（我照抄以后去ping，ping不通。。。）</li>
+<li><code>netmask</code>就是掩码，<code>gateway</code>叫网关，还有后边这个<code>network</code>就不用解释了，这三个咋设置应该是不可以照抄的（凭我的经验是这样，hhh。。。具体咋弄我一起在<strong>使用显示器</strong>部分说）</li>
+</ol>
+</blockquote>
+<hr />
+<h2 id="使用显示器or-vnc-等其他能够支持gui界面操作的">使用显示器（or VNC
+等其他能够支持gui界面操作的）</h2>
+<p><em>（我这边虽然讲的使用显示器，但是在树莓派截完图再传到我电脑上我觉得太麻烦了，而且现在是凌晨三点半，，，我真不想弄了）</em></p>
+<h4 id="第一步">第一步</h4>
+<p>终端输入<code>ifconfig</code>，查看一些信息</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/Qingyun0118/myblog@master/img/image-20240831033722178.png" srcset="/img/loading.gif" lazyload
+alt="image-20240831033722178" />
+<figcaption aria-hidden="true">image-20240831033722178</figcaption>
+</figure>
+<blockquote>
+<p>看我红色框的地方（这个IP是我已经修改成静态ip以后的，我原本的是192.168.244.24）这些信息后边咱还要用到</p>
+</blockquote>
+<h4 id="第二步跟着图片做就行">第二步，跟着图片做就行</h4>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/Qingyun0118/myblog@master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240831034154.jpg" srcset="/img/loading.gif" lazyload
+alt="微信图片_20240831034154" />
+<figcaption aria-hidden="true">微信图片_20240831034154</figcaption>
+</figure>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/Qingyun0118/myblog@master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240831034218.jpg" srcset="/img/loading.gif" lazyload
+alt="微信图片_20240831034218" />
+<figcaption aria-hidden="true">微信图片_20240831034218</figcaption>
+</figure>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/Qingyun0118/myblog@master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240831034222.jpg" srcset="/img/loading.gif" lazyload
+alt="微信图片_20240831034222" />
+<figcaption aria-hidden="true">微信图片_20240831034222</figcaption>
+</figure>
+<blockquote>
+<p>最重要的到了，还记得之前咱用<code>ifconfig</code>看的信息不</p>
+<ol type="1">
+<li>掩码<code>netmask</code>就24就行</li>
+<li><code>address</code>你就只改最后一个<code>.</code>后面的数字就行，<strong>前面三个数都和你用<code>ifconfig</code>一样（192.168不用解释，但第三个数我一改成别的，然后就ping不上了，然后ssh也连不上了）</strong></li>
+<li>gateway也是前三个和<code>ifconfig</code>的一样，然后最后一个是1，DNS和search
+domains也是</li>
+<li>设置完保存save然后重新连接网络就行</li>
+</ol>
+</blockquote>
+<p>最后就是咱ping一下看看行不行，<strong>最后再声明一下，这是我自己摸索的，然后很多东西不是很确定现在。</strong></p>
+<h2 id="补充可能可以尝试的路径">补充可能可以尝试的路径</h2>
+<p>再附上下边这个资料，是我参加另一位同学做的整理，我觉得是可以的，但我没有实际操作过，要注意的可能就是<strong>看看你的树莓派有没有配置netplan</strong>，没有的话就执行下边的指令安装一下：</p>
+<p><strong>（实际操作发现，好像也不行，问题挺多的，但我熬不下去了。。。）</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt update<br><span class="hljs-built_in">sudo</span> apt install netplan.io<br></code></pre></td></tr></table></figure>
+<h3 id="固定树莓派ip">固定树莓派IP</h3>
+<ol type="1">
+<li>运行<code>ifconfig</code></li>
+</ol>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/Qingyun0118/myblog@master/img/clip_image002.jpg" srcset="/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="2" type="1">
+<li><code>sudo nano /etc/netplan/50-cloud-init.yaml</code></li>
+</ol>
+<p>​ 运行上面的命令打开网络配置文件</p>
+<ol start="3" type="1">
+<li>将代码复制到文本里，<strong>格式很重要，</strong>根据自己的IP地址改里面的地址</li>
+</ol>
+<p>​</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">network:</span><br>  <span class="hljs-attr">ethernets:</span><br>    <span class="hljs-attr">eth0:</span><br>      <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">false</span><br>      <span class="hljs-attr">dhcp6:</span> <span class="hljs-literal">no</span><br>      <span class="hljs-attr">addresses:</span> [<span class="hljs-number">192.168</span><span class="hljs-number">.253</span><span class="hljs-number">.88</span><span class="hljs-string">/24</span>]<br>      <span class="hljs-attr">gateway4:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.253</span><span class="hljs-number">.1</span><br>      <span class="hljs-attr">nameservers:</span><br>        <span class="hljs-attr">addresses:</span> [<span class="hljs-number">114.114</span><span class="hljs-number">.114</span><span class="hljs-number">.114</span>, <span class="hljs-number">8.8</span><span class="hljs-number">.8</span><span class="hljs-number">.8</span>]<br>  <span class="hljs-attr">wifis:</span><br>    <span class="hljs-attr">wlan0:</span><br>      <span class="hljs-attr">access-points:</span><br>        <span class="hljs-string">&quot;自己的WiFi名&quot;</span><span class="hljs-string">:</span><br>          <span class="hljs-attr">password:</span> <span class="hljs-string">&quot;WiFi密码&quot;</span><br>      <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">false</span><br>      <span class="hljs-attr">dhcp6:</span> <span class="hljs-literal">no</span><br>      <span class="hljs-attr">addresses:</span> [<span class="hljs-number">192.168</span><span class="hljs-number">.253</span><span class="hljs-number">.8</span><span class="hljs-string">/24</span>]<br>      <span class="hljs-attr">gateway4:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.253</span><span class="hljs-number">.1</span><br>      <span class="hljs-attr">nameservers:</span><br>        <span class="hljs-attr">addresses:</span> [<span class="hljs-number">114.114</span><span class="hljs-number">.114</span><span class="hljs-number">.114</span>, <span class="hljs-number">8.8</span><span class="hljs-number">.8</span><span class="hljs-number">.8</span>]<br>  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span><br><br></code></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/Qingyun0118/myblog@master/img/clip_image004.jpg" srcset="/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="4" type="1">
+<li><p><code>ctrl+x</code>退出 <code>y</code>保存 回车退出</p></li>
+<li><p><code>sudo netplan try</code>保存配置</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">Do you want <span class="hljs-built_in">to</span> keep these settings?<br><br>Press ENTER <span class="hljs-keyword">before</span> <span class="hljs-keyword">the</span> timeout <span class="hljs-built_in">to</span> accept <span class="hljs-keyword">the</span> <span class="hljs-built_in">new</span> configuration<br><br>Changes will revert <span class="hljs-keyword">in</span> <span class="hljs-number">120</span> <span class="hljs-built_in">seconds</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>出现这几条语句即为配置成功</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE-%E9%9D%99%E6%80%81IP/" class="category-chain-item">树莓派 静态IP</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE-%E9%9D%99%E6%80%81IP/" class="print-no-link">#树莓派 静态IP</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>树莓派静态ip的设置</div>
+      <div>https://qingyun0118.github.io/2024/08/31/树莓派静态ip的设置/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wei Jicheng</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/08/31/stm32%E5%AD%A6%E4%B9%A0/" title="stm32学习">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">stm32学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/31/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8Estm32%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1/" title="树莓派与stm32串口通信">
+                        <span class="hidden-mobile">树莓派与stm32串口通信</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
