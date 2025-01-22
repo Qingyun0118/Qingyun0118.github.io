@@ -19,20 +19,22 @@
   <meta name="author" content="Wei Jicheng">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
-<meta property="og:title" content="自动控制原理">
-<meta property="og:url" content="https://qingyun0118.github.io/2025/01/22/%E8%87%AA%E5%8A%A8%E6%8E%A7%E5%88%B6%E5%8E%9F%E7%90%86/index.html">
+    <meta name="description" content="1.在GitHub里进行版本控制 github官方的入门文档 2.在vscode里使用github进行版本控制 比起用命令行操作，很多ide都集成了github，只用点鼠标就行 vscode使用git的官方文档 但实际我在使用的时候碰到了很多问题，有些问题我解决了但有些我选择直接绕过去，我只是想要使用github作为一个版本控制的工具。 下面是可以参考的链接： 如何使用vscode上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用git进行版本控制">
+<meta property="og:url" content="https://qingyun0118.github.io/2025/01/22/%E4%BD%BF%E7%94%A8git%E8%BF%9B%E8%A1%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/index.html">
 <meta property="og:site_name" content="Qingyun&#39;s 博客">
+<meta property="og:description" content="1.在GitHub里进行版本控制 github官方的入门文档 2.在vscode里使用github进行版本控制 比起用命令行操作，很多ide都集成了github，只用点鼠标就行 vscode使用git的官方文档 但实际我在使用的时候碰到了很多问题，有些问题我解决了但有些我选择直接绕过去，我只是想要使用github作为一个版本控制的工具。 下面是可以参考的链接： 如何使用vscode上">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-01-21T16:17:03.000Z">
-<meta property="article:modified_time" content="2025-01-21T16:18:06.045Z">
+<meta property="article:published_time" content="2025-01-22T11:53:08.000Z">
+<meta property="article:modified_time" content="2025-01-22T12:23:40.236Z">
 <meta property="article:author" content="Wei Jicheng">
-<meta property="article:tag" content="自动控制原理">
+<meta property="article:tag" content="github">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>自动控制原理 - Qingyun&#39;s 博客</title>
+  <title>使用git进行版本控制 - Qingyun&#39;s 博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="自动控制原理"></span>
+            <span id="subtitle" data-typed-text="使用git进行版本控制"></span>
           
         </div>
 
@@ -214,8 +216,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-01-22 00:17" pubdate>
-          2025年1月22日 凌晨
+        <time datetime="2025-01-22 19:53" pubdate>
+          2025年1月22日 晚上
         </time>
       </span>
     
@@ -226,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          527 字
         
       </span>
     
@@ -237,7 +239,7 @@
         
         
         
-          1 分钟
+          5 分钟
         
       </span>
     
@@ -283,12 +285,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">自动控制原理</h1>
+            <h1 id="seo-header">使用git进行版本控制</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2025年1月22日 凌晨
+                    本文最后更新于 2025年1月22日 晚上
                   
                 
               </p>
@@ -296,7 +298,27 @@
             
               <div class="markdown-body">
                 
-                
+                <h1 id="在github里进行版本控制">1.在GitHub里进行版本控制</h1>
+<p><a
+target="_blank" rel="noopener" href="https://docs.github.com/zh/get-started/start-your-journey/hello-world">github官方的入门文档</a></p>
+<h2
+id="在vscode里使用github进行版本控制">2.在vscode里使用github进行版本控制</h2>
+<p><em>比起用命令行操作，很多ide都集成了github，只用点鼠标就行</em></p>
+<p><a
+target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/sourcecontrol/overview">vscode使用git的官方文档</a></p>
+<p>但实际我在使用的时候碰到了很多问题，有些问题我解决了但有些我选择直接绕过去，我只是想要使用github作为一个版本控制的工具。</p>
+<p>下面是可以参考的链接：</p>
+<p><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/cwj1412/article/details/119820656">如何使用vscode上传服务器上代码到GitHub【可视化操作】</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/hawkchow/article/details/139437546">如何将vscode的代码同步到github（简化版</a></p>
+<p>第一个方法是先建立本地的仓库，然后再上传到github的远程仓库里，但是我在尝试的过程碰到了问题，就是网络问题，本地仓库同步到远程仓库时间的时候，因为网络的问题就一直在转圈圈。。。。</p>
+<p>第二种方法是先在github建立一个远程仓库，然后再克隆到我们的本地里，最后在我们的本地仓库做代码更改并同步到远程仓库做版本控制。<strong>但是需要注意在克隆仓库到本地的时候记得使用ssh链接，用https会遇到和第一种办法一样的问题甚至下载失败</strong></p>
+<p>网络问题我在网上查了很多，大概就是取消代理啥的，或者是挂的梯子有问题。。。但我懒得解决了，用ssh就算了，我的博客之前也是一直因为网络问题不能上传到github，也是换了ssh部署才解决。。。</p>
+<p>最后提交git代码的时候会卡住，发现是因为我提交的时候没有写提交消息。。。因为vscode默认你不添加任何消息它就自个生成一个文件来代替消息提交，但是服务器那边可能不接受这样的消息然后就卡住了，参考这个文章：<a
+target="_blank" rel="noopener" href="https://blog.csdn.net/qq_63497385/article/details/140135463">VS
+Code使用git提交出现卡顿，慢，一直加载_vscode
+git提交代码一直加载-CSDN博客</a></p>
 
                 
               </div>
@@ -305,32 +327,11 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E8%AF%BE%E7%A8%8B/" class="category-chain-item">大三上课程</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%87%AA%E5%8A%A8%E6%8E%A7%E5%88%B6%E5%8E%9F%E7%90%86/" class="print-no-link">#自动控制原理</a>
+        <a href="/tags/github/" class="print-no-link">#github</a>
       
     </div>
   
@@ -342,8 +343,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>自动控制原理</div>
-      <div>https://qingyun0118.github.io/2025/01/22/自动控制原理/</div>
+      <div>使用git进行版本控制</div>
+      <div>https://qingyun0118.github.io/2025/01/22/使用git进行版本控制/</div>
     </div>
     <div class="license-meta">
       
@@ -387,18 +388,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/01/22/%E4%BD%BF%E7%94%A8git%E8%BF%9B%E8%A1%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" title="使用git进行版本控制">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">使用git进行版本控制</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/01/22/%E6%95%B0%E5%AD%97%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" title="数字信号处理">
-                        <span class="hidden-mobile">数字信号处理</span>
+                      <a href="/2025/01/22/%E8%87%AA%E5%8A%A8%E6%8E%A7%E5%88%B6%E5%8E%9F%E7%90%86/" title="自动控制原理">
+                        <span class="hidden-mobile">自动控制原理</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
